@@ -70,3 +70,4 @@ of points.
 - The program passes the test on the checker with the score 120/120p.
 - The speed-up of creating 2 threads is around 2.00.
 - The speed-up of creating 4 threads is around 3.30.
+- No leaks have been reported by valgrind.
