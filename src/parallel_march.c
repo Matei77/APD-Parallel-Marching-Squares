@@ -16,7 +16,7 @@
 
 #define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
 
-
+// scale down the image using bicubic_interpolation 
 void bicubic_interpolation(thread_arg_t *arg) {
 	ppm_image *scaled_image = arg->scaled_image;
 	ppm_image *image = arg->image;
@@ -79,7 +79,7 @@ void bulid_grid_of_points(thread_arg_t *arg) {
     }
     grid[grid_x_points][grid_y_points] = 0;
 
-
+    // set the last column
     for (int i = start_x; i < end_x; i++) {
         ppm_pixel curr_pixel = image->data[i * step_x * image->y + image->x - 1];
 
@@ -91,6 +91,8 @@ void bulid_grid_of_points(thread_arg_t *arg) {
             grid[i][grid_y_points] = 1;
         }
     }
+
+    // set the last line
     for (int j = start_y; j < end_y; j++) {
         ppm_pixel curr_pixel = image->data[(image->x - 1) * image->y + j * step_y];
 
@@ -104,6 +106,7 @@ void bulid_grid_of_points(thread_arg_t *arg) {
     }
 }
 
+// Change the image, by swapping each section with its corresonding countour
 void march(thread_arg_t *arg) {
 	int step_x, step_y;
 	step_x = step_y = STEP;
@@ -121,7 +124,9 @@ void march(thread_arg_t *arg) {
 
 	for (int i = start; i < end; i++) {
         for (int j = 0; j < grid_y_points; j++) {
-            unsigned char k = 8 * grid[i][j] + 4 * grid[i][j + 1] + 2 * grid[i + 1][j + 1] + 1 * grid[i + 1][j];
+            unsigned char k = 8 * grid[i][j] + 4 * grid[i][j + 1] +
+                              2 * grid[i + 1][j + 1] + 1 * grid[i + 1][j];
+
             update_image(image, arg->contour_map[k], i * step_x, j * step_y);
         }
     }

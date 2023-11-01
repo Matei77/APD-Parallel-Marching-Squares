@@ -9,7 +9,8 @@ void init_mem(ppm_image **scaled_image, ppm_image **image, ppm_image ***contour_
 			  unsigned char ***grid);
 
 // Calls `free` method on the utilized resources.
-void free_resources(ppm_image *scaled_image, ppm_image *image, ppm_image **contour_map, unsigned char **grid, int step_x);
+void free_resources(ppm_image *scaled_image, ppm_image *image, ppm_image **contour_map,
+					unsigned char **grid, int step_x);
 
 // Updates a particular section of an image with the corresponding contour pixels.
 // Used to create the complete contour image.
